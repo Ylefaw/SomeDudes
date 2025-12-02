@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 }
 
 // Récupération des photos
-$photos = $pdo->query("SELECT * FROM photos ORDER BY votes DESC")->fetchAll(PDO::FETCH_ASSOC);
+$photos = $pdo->query("SELECT * FROM photodata ORDER BY photos DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
