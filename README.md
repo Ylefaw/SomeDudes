@@ -1,2 +1,11 @@
 # SomeDudes
-C'est pour le super défi GitHub
+Prendre le code source du site suivant: https://emmanuelrauzy.alwaysdata.net/Motte/
+- Faire du CSS propre, le site est laid
+- Organiser la page en header, body, footer
+- Changer la police
+
+Faire une nouvelle page HTML & CSS "Espace Naturel de la motte"
+- https://www.tourisme-seine-et-marne.fr/visiter-decouvrir/4686649-espace-naturel-motte/
+- Organiser la page en header, body, footer
+- Utiliser la même police que dans la page d'Emmanuel Rauzy
+  
