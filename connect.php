@@ -1,4 +1,3 @@
-
 <?php
 // Connexion à la base
 $host = 'localhost';
