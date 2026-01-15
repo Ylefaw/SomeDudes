@@ -241,30 +241,36 @@ main, .content {
 
 
 @media (max-width: 600px) {
-    
-        .header {
-        padding: 10px;
-        text-align: center;
-    }
 
-    .title {
-        font-size: 1.5em;
-    }
+	.header {
+		padding: 10px;
+		text-align: center;
+	}
 
-    .menu {
-        display: flex;
+	.title {
+		font-size: 1.5em;
+	}
 
-        flex-direction: column;
-        gap: 12px;
-    }
+	.menu {
+		display: flex;
 
-    
-    .menu a {
-        margin: 5px 0;
-        font-size: 1em;
+		flex-direction: column;
+		gap: 12px;
+	}
 
-    }
-    section h2, .content h2 {
-        font-size: 1.2rem;
+
+	.menu a {
+		margin: 5px 0;
+		font-size: 1em;
+
+	}
+	section h2, .content h2 {
+		font-size: 1.2rem;
+	}
+}
+
+@media (max-width: 500px) {
+    .image {
+        height: 220px;
     }
 }
