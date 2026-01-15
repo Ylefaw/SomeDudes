@@ -2,9 +2,9 @@
 
 # SomeDudes
 
-- [] Créer un dossier "SuperDefi"
-- [] Dans ce dossier, il y aura tous les fichiers HTML, CSS & PHP
-- [] Dans ce dossier, il y a un dossier images où vous mettrez toutes les images.
+- [ ] Créer un dossier "SuperDefi"
+- [ ] Dans ce dossier, il y aura tous les fichiers HTML, CSS & PHP
+- [ ] Dans ce dossier, il y a un dossier images où vous mettrez toutes les images.
 
   
 Prendre le code source du site suivant: https://emmanuelrauzy.alwaysdata.net/Motte/
@@ -13,8 +13,8 @@ Prendre le code source du site suivant: https://emmanuelrauzy.alwaysdata.net/Mot
 - [*] Changer la police
 
 Faire une nouvelle page HTML & CSS "Espace Naturel de la motte"
-- [] https://www.tourisme-seine-et-marne.fr/visiter-decouvrir/4686649-espace-naturel-motte/
-- [] Organiser la page en header, body, footer
-- [] Utiliser la même police que dans la page d'Emmanuel Rauzy
+- [ ] https://www.tourisme-seine-et-marne.fr/visiter-decouvrir/4686649-espace-naturel-motte/
+- [ ] Organiser la page en header, body, footer
+- [ ] Utiliser la même police que dans la page d'Emmanuel Rauzy
   
 lien du site always data : https://testurururu.alwaysdata.net/SomeDudes/index.html
