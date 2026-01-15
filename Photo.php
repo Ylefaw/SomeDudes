@@ -16,35 +16,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $fileTmp = $_FILES['photo']['tmp_name'];
         $fileName = basename($_FILES['photo']['name']);
         $uploadDir = "uploads/";
-
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
-
-        $targetPath = $uploadDir . $fileName;
-
-        if (move_uploaded_file($fileTmp, $targetPath)) {
-            $stmt = $pdo->prepare("INSERT INTO photos (filename, description, votes) VALUES (?, ?, 0)");
-            $stmt->execute([$fileName, $description]);
-            $message = "Photo envoyée avec succès !";
+        
+        // Validation : taille max 5MB
+        $maxSize = 5 * 1024 * 1024;
+        if ($_FILES['photo']['size'] > $maxSize) {
+            $message = "Erreur : Fichier trop volumineux (max 5MB).";
+        } else if (!in_array($_FILES['photo']['type'], ['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
+            $message = "Erreur : Format non accepté (JPG, PNG, GIF, WebP uniquement).";
         } else {
-            $message = "Erreur lors de l'upload.";
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            // Générer un nom unique pour éviter les collisions
+            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+            $uniqueName = uniqid('photo_') . '_' . time() . '.' . $fileExtension;
+            $targetPath = $uploadDir . $uniqueName;
+
+            if (move_uploaded_file($fileTmp, $targetPath)) {
+                $stmt = $pdo->prepare("INSERT INTO photos (filename, description, votes) VALUES (?, ?, 0)");
+                $stmt->execute([$uniqueName, $description]);
+                $message = "Photo envoyée avec succès !";
+            } else {
+                $message = "Erreur lors de l'upload.";
+            }
         }
+    } else {
+        $message = "Erreur : Veuillez sélectionner une photo.";
     }
 }
 
 // Traitement vote
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'vote') {
     $photo_id = $_POST['photo_id'] ?? null;
-    if ($photo_id) {
+    if ($photo_id && is_numeric($photo_id)) {
         $stmt = $pdo->prepare("UPDATE photos SET votes = votes + 1 WHERE id = ?");
-        $stmt->execute([$photo_id]);
+        $stmt->execute([(int)$photo_id]);
         $message = "Merci pour votre vote !";
+    } else {
+        $message = "Erreur : Photo invalide.";
     }
 }
 
 // Récupération des photos
-$photos = $pdo->query("SELECT * FROM photodata ORDER BY photos DESC")->fetchAll(PDO::FETCH_ASSOC);
+$photos = $pdo->query("SELECT * FROM photos ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +74,7 @@ $photos = $pdo->query("SELECT * FROM photodata ORDER BY photos DESC")->fetchAll(
         <h1 class="title">Concours Photo</h1>
         <nav class="menu">
             <a href="index.html">Accueil</a>
-            <a href="concours.php">Concours Photo</a>
+            <a href="Photo.php">Concours Photo</a>
         </nav>
     </header>
 
@@ -96,13 +111,21 @@ $photos = $pdo->query("SELECT * FROM photodata ORDER BY photos DESC")->fetchAll(
         </form>
 
         <h2>Galerie des photos</h2>
-        <?php foreach ($photos as $photo): ?>
-            <div style="margin:20px;">
-                <img src="uploads/<?= htmlspecialchars($photo['filename']) ?>" alt="photo" class="image"><br>
-                <p><?= htmlspecialchars($photo['description']) ?></p>
-                <p><strong><?= $photo['votes'] ?> votes</strong></p>
+        <?php if (empty($photos)): ?>
+            <p style="font-style: italic; color: #888;">Aucune photo soumise pour le moment. Soyez le premier à participer !</p>
+        <?php else: ?>
+            <div class="photo-gallery">
+                <?php foreach ($photos as $photo): ?>
+                    <div class="photo-item">
+                        <img src="uploads/<?= htmlspecialchars($photo['filename']) ?>" alt="photo" class="image">
+                        <div class="photo-info">
+                            <p><strong><?= htmlspecialchars($photo['description'] ?: 'Sans titre') ?></strong></p>
+                            <p class="vote-count"><?= $photo['votes'] ?> vote<?= $photo['votes'] > 1 ? 's' : '' ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
-        <?php endforeach; ?>
+        <?php endif; ?>
     </main>
 
     <footer class="footer">
