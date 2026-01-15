@@ -4,4 +4,4 @@
 $host = 'mysql';
 $dbname = 'testurururu_somedudes';
 $username = '443944';
-$password = 'tkD:L!]B9@>y!Gk';
+$password = 'tkD:L!]B9@>y!Gk';//ne pas toucher a cela
