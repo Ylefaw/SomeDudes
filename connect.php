@@ -13,6 +13,9 @@ $ip = $_SERVER['REMOTE_ADDR'];
 
 $cookievalue = $ip;
 
+// Le cookie ne doit etre transmis qu en HTTPS lorsque le site y est servi
+$secure = !empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off";
+
 
 setcookie(
     'liste_ip',              // nom du cookie
@@ -20,10 +23,8 @@ setcookie(
     time() + 12*24*3600,     // expiration (12 jours)
     '/',                     // chemin (disponible sur tout le site)
     '',                      // domaine (vide = domaine courant)
-    false,                   // sécurisé (true = HTTPS uniquement)
+    $secure,                 // securise : true des que le site est servi en HTTPS
     true                     // HttpOnly (empêche accès via JS)
 );
 
-// Vérification
-echo "Cookie créé avec l'adresse IP : " . $cookievalue;
 
